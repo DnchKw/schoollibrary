@@ -25,21 +25,22 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'loggedin' in session:
-        return redirect(url_for('user'))
+        return redirect(url_for('main'))
     else:
         if request.method == 'POST':
             username = str(request.form['username'])
             password = str(request.form['password'])
 
             cur = con.cursor()
-            cur.execute(f"SELECT * FROM users WHERE username = {username}")
+            cur.execute(f'SELECT * FROM users WHERE username == :username',
+                        {'username': bytes(username, encoding='utf-8')})
             user = cur.fetchone()
             cur.close()
-            if user and bcrypt.hashpw(bytes(password, encoding='utf8'), bytes(user[2], encoding='utf8')):
+            if user and bcrypt.hashpw(bytes(password, encoding='utf8'), user[2]):
                 session['loggedin'] = True
                 session['id'] = user[0]
                 session['username'] = user[1]
-                return redirect(url_for('user'))
+                return redirect(url_for('main'))
             else:
                 error = "Incorrect username or password."
                 return render_template('login.html', error=error)
@@ -98,7 +99,7 @@ def admin():
         if request.method == 'POST':
             cur = con.cursor()
             id = int(request.form['hh'].encode('utf8'))
-            cur.execute(f"DELETE FROM books WHERE id = {id}")
+            cur.execute(f"DELETE FROM books WHERE id == :id", {'id': id})
             con.commit()
             cur.close()
         cur = con.cursor()
@@ -107,7 +108,7 @@ def admin():
         cur.close()
         return render_template('admin.html', books=books)
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('index'))
 
 
 @app.route('/main', methods=['GET', 'POST'])
@@ -115,14 +116,14 @@ def main():
     if 'loggedin' in session:
         cur = con.cursor()
         if request.method == 'POST':
-            cur.execute("SELECT * FROM books WHERE title LIKE %s", [f'%{request.form["search"]}%'])
+            cur.execute("SELECT * FROM books WHERE title LIKE :search", {'search': f'%{request.form["search"]}%'})
         else:
             cur.execute('SELECT * FROM books')
         books = cur.fetchall()
         cur.close()
         return render_template('main.html', books=books, count_book=len(books))
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('index'))
 
 
 @app.route('/add_book', methods=['GET', 'POST'])
@@ -139,9 +140,21 @@ def add_book():
             photo.save(os.path.join(app.config['UPLOAD_FOLDER'], image_name))
 
             cur = con.cursor()
+            print(                {'title': title,
+                 'autor': author,
+                 'year': year,
+                 'description': description,
+                 'image': image_name,
+                 'count': int(count)})
             cur.execute(
-                "INSERT INTO books (title, author, year, description, image, count) VALUES (%s, %s, %s, %s, %s, %s)",
-                (title, author, year, description, image_name, int(count)))
+                "INSERT INTO books (title, author, year, description, image, count) VALUES "
+                "(:title, :author, :year, :description, :image, :count)",
+                {'title': title,
+                 'author': author,
+                 'year': year,
+                 'description': description,
+                 'image': image_name,
+                 'count': int(count)})
             con.commit()
             cur.close()
 
@@ -150,7 +163,7 @@ def add_book():
         else:
             return render_template('add_book.html')
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('index'))
 
 
 @app.route('/TODO')
