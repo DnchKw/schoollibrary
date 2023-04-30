@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h2>Add New Book</h2>
+      <form method="POST" action="{{ url_for('add_book') }}" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="title">Название:</label>
+          <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+          <label for="author">Автор:</label>
+          <input type="text" class="form-control" id="author" name="author" required>
+        </div>
+        <div class="form-group">
+          <label for="description">Описание:</label>
+          <input type="text" class="form-control" id="description" name="description" required>
+        </div>
+        <div class="form-group">
+          <label for="count">Кол-во:</label>
+          <input type="number" class="form-control" id="count" name="count" required>
+        </div>
+        <div class="form-group">
+          <label for="year">Год написания:</label>
+          <input type="text" class="form-control" id="year" name="year" required>
+        </div>
+        <div class="form-group">
+          <label for="photo">Выберите Обложку:</label>
+          <input type="file" class="form-control-file" id="photo" name="photo" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Готово/button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
