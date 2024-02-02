@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Главная</h1>
+    <p>
+        <a href="{{ url_for('admin') }}" class="btn btn-primary">Корзина</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Выйти</a>
+    </p>
+    <div class="row">
+        {% if (count_book == 0): %}
+            <p>Ничего не найдено</p>
+        {% else: %}
+            {% for book in books %}
+                <div class="col-md-auto">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <img src="static/images/{{book[5]}}" class="card-img-top"
+                            style="width:200px;height:260">
+                            <h5 class="card-title">{{book[1]}}</h5>
+                            <p>{{book[2]}}</p>
+                            <p><b>Количество: {{ book[6] }}</b></p>
+                            <a href="/{{ book[0] }}" class="btn btn-success">Забронировать</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<hr>
+
+{% endblock %}

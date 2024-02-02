@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Администраторская панель</h1>
+    <p>
+        <a href="{{ url_for('add_book') }}" class="btn btn-primary">Добавить книгу</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Выйти</a>
+    </p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Обложка</th>
+                <th>Название</th>
+                <th>Автор</th>
+                <th>Год написания</th>
+                <th>Кол-во</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+                <tr>
+                    <td>
+                        <img src="static/images/{{book[5]}}" class="card-img-top"
+                        style="width:100px;height:130px">
+                    </td>
+                    <td>{{ book[1] }}</td>
+                    <td>{{ book[2] }}</td>
+                    <td>{{ book[4] }}</td>
+                    <td>{{ book[6] }}</td>
+                    <td>
+                    <a href="/admin/{{ book.title }}/update" class="btn btn-success">Редактировать</a>    
+                    <br>
+                        <form action="/admin" method="POST">
+                            <input type="hidden" name="hh" value="{{book[1]}}"/>
+                            <br>
+                            <button type="submit" name="_method" class="btn btn-danger">
+                                Удалить
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
