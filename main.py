@@ -11,9 +11,6 @@ app.secret_key = "secretkey"
 # MySQL Configuration
 app.config['UPLOAD_FOLDER'] = 'static/images'
 con = sl.connect('library.db', check_same_thread=False)
-<<<<<<< HEAD
-
-=======
 cur = con.cursor()
 
 # class Articles():
@@ -24,7 +21,6 @@ cur = con.cursor()
     # desc = cur.execute('SELECT description FROM books')
     # year = cur.execute('SELECT year FROM books')
     # count = cur.execute('SELECT count FROM books')
->>>>>>> main
 
 # Routes
 @app.route('/')
@@ -41,10 +37,7 @@ def login():
         return redirect(url_for('main'))
     else:
         if request.method == 'POST':
-<<<<<<< HEAD
-=======
             global usermane
->>>>>>> main
             username = str(request.form['username'])
             password = str(request.form['password'])
 
@@ -115,13 +108,8 @@ def admin():
     if 'loggedin' in session:
         if request.method == 'POST':
             cur = con.cursor()
-<<<<<<< HEAD
-            id = int(request.form['hh'].encode('utf8'))
-            cur.execute(f"DELETE FROM books WHERE id == :id", {'id': id})
-=======
             title = request.form['hh']
             cur.execute(f"DELETE FROM books WHERE title == :title", {'title': title})
->>>>>>> main
             con.commit()
             cur.close()
         cur = con.cursor()
@@ -141,11 +129,8 @@ def main():
             cur.execute("SELECT * FROM books WHERE title LIKE :search", {'search': f'%{request.form["search"]}%'})
         else:
             cur.execute('SELECT * FROM books')
-<<<<<<< HEAD
-=======
 
 
->>>>>>> main
         books = cur.fetchall()
         cur.close()
         return render_template('main.html', books=books, count_book=len(books))
@@ -193,8 +178,6 @@ def add_book():
         return redirect(url_for('index'))
 
 
-<<<<<<< HEAD
-=======
 
 
 
@@ -248,7 +231,6 @@ def profile():
 
 
 
->>>>>>> main
 @app.route('/TODO')
 def todo():
     return render_template('TODO.html')
