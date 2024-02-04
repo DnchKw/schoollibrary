@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Главная</h1>
+    <p>
+        <a href="{{ url_for('add_book') }}" class="btn btn-primary">Добавить книгу</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Выйти</a>
+    </p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Пароль</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for username in users %}
+                <tr>
+                    <!--
+                    <td>
+                        <img src="static/images/{{book[5]}}" class="card-img-top"
+                        style="width:100px;height:130px">
+                    </td>
+                    <td>{{ book[1] }}</td>
+                    <td>{{ book[2] }}</td>
+                    <td>{{ book[6] }}</td>
+                    <td> -->
+                    <td>{{ username[1] }}</td>
+                    <!--    
+                    <form action="/admin" method="POST">
+                            <input type="hidden" name="hh" value="{{book[0]}}"/>
+                            <a href="{{ url_for('add_book') }}" class="btn btn-primary">Забронировать</a>
+                            <br>
+                            <br>
+                            <a href="{{ url_for('book_info') }}" class="btn btn-secondary">Посмотреть </a>
+                        </form>
+                    -->
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

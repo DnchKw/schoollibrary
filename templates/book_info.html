@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ book[1] }}</h1>
+
+    <div class="row">
+        <ul>
+                <div class="col-md-auto">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <img src="static/images/{{book[5]}}" method="GET" class="card-img-top"
+                            style="width:200px;height:260">
+                            <h5 class="card-title" method="GET">{{book[1]}}</h5>
+                            <p>{{ book[2]}}</p>
+                            <p><b>Количество: {{ book[6] }}</b></p>
+
+                        </div>
+                    </div>
+                </div>
+        </ul>
+    </div>
+</div>
+<hr>
+{% endblock %}

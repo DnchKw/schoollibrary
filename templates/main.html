@@ -3,6 +3,10 @@
 {% block content %}
     <h1>Главная</h1>
     <p>
+<<<<<<< HEAD
+=======
+        <a href="{{ url_for('admin') }}" class="btn btn-primary">Корзина</a>
+>>>>>>> main
         <a href="{{ url_for('logout') }}" class="btn btn-secondary">Выйти</a>
     </p>
     <div class="row">
@@ -16,6 +20,12 @@
                             <img src="static/images/{{book[5]}}" class="card-img-top"
                             style="width:200px;height:260">
                             <h5 class="card-title">{{book[1]}}</h5>
+<<<<<<< HEAD
+=======
+                            <p>{{book[2]}}</p>
+                            <p><b>Количество: {{ book[6] }}</b></p>
+                            <a href="/{{ book[0] }}" class="btn btn-success">Забронировать</a>
+>>>>>>> main
                         </div>
                     </div>
                 </div>
@@ -24,4 +34,9 @@
     </div>
 </div>
 <hr>
+<<<<<<< HEAD
 {% endblock %}
+=======
+
+{% endblock %}
+>>>>>>> main
