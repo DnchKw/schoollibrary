@@ -37,7 +37,7 @@ def login():
         return redirect(url_for('main'))
     else:
         if request.method == 'POST':
-            global usermane
+            global username
             username = str(request.form['username'])
             password = str(request.form['password'])
 
@@ -126,11 +126,16 @@ def main():
     if 'loggedin' in session:
         cur = con.cursor()
         if request.method == 'POST':
-            cur.execute("SELECT * FROM books WHERE title LIKE :search", {'search': f'%{request.form["search"]}%'})
-        else:
-            cur.execute('SELECT * FROM books')
-
-
+            # cur.execute("SELECT * FROM books WHERE title LIKE :search", {'search': f'%{request.form["search"]}%'})
+            user = session.get('username')
+            title = request.form['bb']
+            title.replace(f"'(", "")
+            title.replace(f")'", "")
+            print({'user': user, 'title': title})
+            cur.execute("INSERT INTO orders (users, title) VALUES " "(:user, :title)", {'user': user, 'title': title})
+            con.commit()
+        cur = con.cursor()
+        cur.execute('SELECT * FROM books')
         books = cur.fetchall()
         cur.close()
         return render_template('main.html', books=books, count_book=len(books))
@@ -206,26 +211,37 @@ def add_book():
 def bag():
     if 'loggedin' in session:
         cur = con.cursor()
-        if request.method == 'POST':
-            cur.execute("SELECT * FROM books WHERE title LIKE :search", {'search': f'%{request.form["search"]}%'})
-        else:
-            cur.execute('SELECT * FROM books')
-
-
-        books = cur.fetchall()
+        user = session.get('username')
+        cur.execute(f'SELECT title FROM orders WHERE users == :users', {'users': user})
+        order = cur.fetchall()
         cur.close()
-        return render_template('main.html', books=books, count_book=len(books))
+        return render_template('bag.html', orders=order, count_order=len(order))
+    else:
+        return redirect(url_for('index'))
+
+@app.route('/bag_clear', methods=['POST'])
+def bag_clear():
+    if 'loggedin' in session:
+        if request.method == 'POST':
+            cur = con.cursor()
+            title = request.form['tt']
+            cur.execute(f"DELETE FROM orders WHERE title == :title;", {'title': title})
+            con.commit()
+            cur.close()
+        return redirect(url_for('bag'))
     else:
         return redirect(url_for('index'))
 
 
-
-@app.route('/profile', methods=['GET', 'POST'])
+@app.route('/profile')
 def profile():
     if 'loggedin' in session:
-        if request.method == 'POST':
+        cur = con.cursor()
+        user = session.get('username')
+        cur.execute(f'SELECT * FROM users WHERE username == :username',
+                    {'username': user})
 
-            return render_template('profile.html')
+        return render_template('profile.html', user=user)
     else:
         redirect(url_for('index'))
 

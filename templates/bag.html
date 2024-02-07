@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Корзина</h1>
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+    <tr>
+        <td>{{ orders[1] }}</td>
+            <form action="/bag_clear" method="POST">
+                <input type="hidden" name="tt" value="{{ orders }}"/>
+                <br>
+                <button type="submit" name="_method" class="btn btn-danger">
+                    Удалить
+                </button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}
