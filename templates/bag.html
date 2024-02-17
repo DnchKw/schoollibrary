@@ -7,20 +7,21 @@
         <tr>
             <th>Название</th>
             <th></th>
+            <form action="/bag_clear" method="POST">
+                <input type="hidden" name="tt"/>
+                <br>
+                {% if count_order != 0 %}
+                    <button type="submit" name="_method" class="btn btn-danger">
+                        Очистить корзину
+                    </button>
+                {% endif %}
+            </form>
         </tr>
     </thead>
     <tbody>
     {% for order in orders %}
     <tr>
         <td>{{ orders[1] }}</td>
-            <form action="/bag_clear" method="POST">
-                <input type="hidden" name="tt" value="{{ orders }}"/>
-                <br>
-                <button type="submit" name="_method" class="btn btn-danger">
-                    Удалить
-                </button>
-            </form>
-        </td>
     </tr>
     {% endfor %}
     </tbody>

@@ -225,7 +225,8 @@ def bag_clear():
         if request.method == 'POST':
             cur = con.cursor()
             title = request.form['tt']
-            cur.execute(f"DELETE FROM orders WHERE title == :title;", {'title': title})
+            user = session.get('username')
+            cur.execute(f"DELETE FROM orders WHERE users == :user", {'user': user})
             con.commit()
             cur.close()
         return redirect(url_for('bag'))

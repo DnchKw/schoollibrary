@@ -4,7 +4,6 @@
     <h1>Главная</h1>
     <p>
         <a href="{{ url_for('bag') }}" class="btn btn-primary">Корзина</a>
-        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Выйти</a>
     </p>
     <div class="row">
         {% if (count_book == 0): %}
