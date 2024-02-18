@@ -2,28 +2,39 @@
 
 {% block content %}
     <h1>Корзина</h1>
-    <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Название</th>
-            <th></th>
+            {% if count_order == 0 %}
+                <br>
+                <h3>Здесь ничего нет...</h3>
+                <small>Добавьте сюда что-нибудь</small>
+            {% endif %}
+            
+            {% if count_order != 0 %}
+            <p>
             <form action="/bag_clear" method="POST">
                 <input type="hidden" name="tt"/>
                 <br>
-                {% if count_order != 0 %}
+                
                     <button type="submit" name="_method" class="btn btn-danger">
                         Очистить корзину
                     </button>
-                {% endif %}
+            
             </form>
-        </tr>
-    </thead>
-    <tbody>
-    {% for order in orders %}
-    <tr>
-        <td>{{ orders[1] }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-    </table>
+            </p>
+
+            <div class="row">
+                {% for order in orders %}
+                <div class="col-md-auto">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <img src="static/images/{{order[3]}}" class="card-img-top"
+                            style="width:200px;height:260">
+                            <h5 class="card-title">{{order[1]}}</h5>
+                            <p>{{order[2]}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
 {% endblock %}

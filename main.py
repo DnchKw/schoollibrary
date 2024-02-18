@@ -128,11 +128,11 @@ def main():
         if request.method == 'POST':
             # cur.execute("SELECT * FROM books WHERE title LIKE :search", {'search': f'%{request.form["search"]}%'})
             user = session.get('username')
-            title = request.form['bb']
-            title.replace(f"'(", "")
-            title.replace(f")'", "")
-            print({'user': user, 'title': title})
-            cur.execute("INSERT INTO orders (users, title) VALUES " "(:user, :title)", {'user': user, 'title': title})
+            title = request.form['title']
+            author = request.form['author']
+            image = request.form['image']
+            print({'user': user, 'title': title, 'author': author, 'image': image})
+            cur.execute("INSERT INTO orders (users, title, author, image) VALUES " "(:user, :title, :author, :image)", {'user': user, 'title': title, 'author': author, 'image': image})
             con.commit()
         cur = con.cursor()
         cur.execute('SELECT * FROM books')
@@ -212,7 +212,7 @@ def bag():
     if 'loggedin' in session:
         cur = con.cursor()
         user = session.get('username')
-        cur.execute(f'SELECT title FROM orders WHERE users == :users', {'users': user})
+        cur.execute(f'SELECT * FROM orders WHERE users == :users', {'users': user})
         order = cur.fetchall()
         cur.close()
         return render_template('bag.html', orders=order, count_order=len(order))
@@ -241,6 +241,7 @@ def profile():
         user = session.get('username')
         cur.execute(f'SELECT * FROM users WHERE username == :username',
                     {'username': user})
+                    
 
         return render_template('profile.html', user=user)
     else:

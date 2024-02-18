@@ -19,7 +19,9 @@
                             <p>{{book[2]}}</p>
                             <p><b>Количество: {{ book[6] }}</b></p>
                             <form action="/main" method="POST">
-                                <input type="hidden" name="bb" value="{{book[1]}}"/>
+                                <input type="hidden" name="title" value="{{book[1]}}"/>
+                                <input type="hidden" name="author" value="{{book[2]}}"/>
+                                <input type="hidden" name="image" value="{{book[5]}}"/>
                                 <br>
                                 <button type="submit" name="_method" class="btn btn-success">
                                     Забронировать

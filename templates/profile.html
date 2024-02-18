@@ -1,24 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Главная</h1>
     <p>
-        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Выйти</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-danger">Выйти из аккаунта</a>
     </p>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Имя</th>
-                <th>Пароль</th>
-            </tr>
-        </thead>
-        <tbody>
-                <tr>
 
-                    <td>{{ user[1] }}</td>
+    <br>
 
-                    </td>
-                </tr>
-        </tbody>
-    </table>
+    <h5 class="card-title">Ваш UserID: {{ user[1] }}</h5>
+
 {% endblock %}
