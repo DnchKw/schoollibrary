@@ -26,7 +26,7 @@
 
 ## <a title="title2">Как установить</a>
 1. Прверьте наличие на вашем устройстве Python, PIP, Git.
-2. Скачайте репозиторий `git clone https://github.com/DenuG/schoollibrary`
+2. Скачайте репозиторий `git clone https://github.com/DenuG/schoollibrary.git`
 3. В папке пректа запустите команду `pip install requirements.txt`
 
 ## <a title="title3">Как запустить</a>
