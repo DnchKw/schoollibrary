@@ -9,28 +9,30 @@
             {% endif %}
             
             {% if count_order != 0 %}
-            <p>
-            <form action="/bag_clear" method="POST">
-                <input type="hidden" name="tt"/>
-                <br>
-                
-                    <button type="submit" name="_method" class="btn btn-danger">
-                        Очистить корзину
-                    </button>
-            
-            </form>
-            </p>
 
             <div class="row">
                 {% for order in orders %}
                 <div class="col-md-auto">
                     <div class="card text-center">
                         <div class="card-body">
-                            <img src="static/images/{{order[3]}}" class="card-img-top"
+                            <img src="static/images/{{order[4]}}" class="card-img-top"
                             style="width:200px;height:260">
-                            <h5 class="card-title">{{order[1]}}</h5>
-                            <p>{{order[2]}}</p>
+                            <h5 class="card-title">{{order[2]}}</h5>
+                            <p>{{order[3]}}</p>
+                            <p>
+                                <form action="/bag_clean" method="POST">
+                                    <input type="hidden" name="id" value="{{order[0]}}"/>
+                                    <input type="hidden" name="title" value="{{order[2]}}"
+                                    <br>
+                                    
+                                        <button type="submit" name="_method" class="btn btn-danger">
+                                            Отменить бронирование
+                                        </button>
+                                
+                                </form> 
+                                </p>
                         </div>
+                            
                     </div>
                 </div>
                 {% endfor %}

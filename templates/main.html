@@ -17,16 +17,25 @@
                             style="width:200px;height:260">
                             <h5 class="card-title">{{book[1]}}</h5>
                             <p>{{book[2]}}</p>
-                            <p><b>Количество: {{ book[6] }}</b></p>
+                            <p id="count"><b>Количество: {{ book[6] }}</b></p>
+                            {% if (book[6] > 0): %}
                             <form action="/main" method="POST">
                                 <input type="hidden" name="title" value="{{book[1]}}"/>
                                 <input type="hidden" name="author" value="{{book[2]}}"/>
                                 <input type="hidden" name="image" value="{{book[5]}}"/>
+                                <input type="hidden" name="count" value="{{book[6]}}"/>
                                 <br>
-                                <button type="submit" name="_method" class="btn btn-success">
+                                
+                                <button type="submit" name="_method" class="btn btn-success" id="submitBtn">
                                     Забронировать
                                 </button>
+
                             </form>
+                            {% else %}
+                            <form>
+                                <button class="btn">Нет в наличии</button>
+                            </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -35,5 +44,4 @@
     </div>
 </div>
 <hr>
-
 {% endblock %}

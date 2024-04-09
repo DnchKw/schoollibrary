@@ -4,6 +4,7 @@
     <h1>Администраторская панель</h1>
     <p>
         <a href="{{ url_for('add_book') }}" class="btn btn-primary">Добавить книгу</a>
+        <a href="{{ url_for('orders') }}" class="btn btn-primary">Заказы</a>
         <a href="{{ url_for('logout') }}" class="btn btn-secondary">Выйти</a>
     </p>
     <table class="table table-striped">
@@ -29,7 +30,7 @@
                     <td>{{ book[4] }}</td>
                     <td>{{ book[6] }}</td>
                     <td>
-                    <a href="/admin/{{ book.title }}/update" class="btn btn-success">Редактировать</a>    
+                    <a href="/update" class="btn btn-success">Редактировать</a>    
                     <br>
                         <form action="/admin" method="POST">
                             <input type="hidden" name="hh" value="{{book[1]}}"/>

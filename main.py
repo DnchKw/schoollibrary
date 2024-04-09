@@ -127,13 +127,19 @@ def main():
         cur = con.cursor()
         if request.method == 'POST':
             # cur.execute("SELECT * FROM books WHERE title LIKE :search", {'search': f'%{request.form["search"]}%'})
-            user = session.get('username')
+            user = session.get('username').decode('utf8')
             title = request.form['title']
             author = request.form['author']
             image = request.form['image']
-            print({'user': user, 'title': title, 'author': author, 'image': image})
-            cur.execute("INSERT INTO orders (users, title, author, image) VALUES " "(:user, :title, :author, :image)", {'user': user, 'title': title, 'author': author, 'image': image})
-            con.commit()
+            count = request.form['count']
+            count = int(count) - 1
+            if count > 0:
+                print({'user': user, 'title': title, 'author': author, 'image': image})
+                cur.execute("INSERT INTO orders (users, title, author, image) VALUES " "(:user, :title, :author, :image)", {'user': user, 'title': title, 'author': author, 'image': image})
+                cur.execute("UPDATE books SET count = :count WHERE title == :title", {'count': count, 'title': title})
+                con.commit()
+        # if request.method == 'POST':
+        #     cur.execute("SELECT * FROM books WHERE title LIKE :search", {'search': f'%{request.form["search"]}%'})
         cur = con.cursor()
         cur.execute('SELECT * FROM books')
         books = cur.fetchall()
@@ -211,7 +217,7 @@ def add_book():
 def bag():
     if 'loggedin' in session:
         cur = con.cursor()
-        user = session.get('username')
+        user = session.get('username').decode('utf8')
         cur.execute(f'SELECT * FROM orders WHERE users == :users', {'users': user})
         order = cur.fetchall()
         cur.close()
@@ -219,14 +225,18 @@ def bag():
     else:
         return redirect(url_for('index'))
 
-@app.route('/bag_clear', methods=['POST'])
-def bag_clear():
+@app.route('/bag_clean', methods=['POST'])
+def bag_clean():
     if 'loggedin' in session:
         if request.method == 'POST':
             cur = con.cursor()
-            title = request.form['tt']
-            user = session.get('username')
-            cur.execute(f"DELETE FROM orders WHERE users == :user", {'user': user})
+            bId = request.form['id']
+            title = request.form['title']
+            cur.execute(f"DELETE FROM orders WHERE id == :id", {'id': bId})
+            cur.execute(f'SELECT count FROM books WHERE title == :title', {'title': title})
+            count = cur.fetchone()
+            count = int(str(count[0])) + 1
+            cur.execute(f"UPDATE books SET count = :count WHERE title == :title", {'count': count, 'title': title})
             con.commit()
             cur.close()
         return redirect(url_for('bag'))
@@ -237,15 +247,42 @@ def bag_clear():
 @app.route('/profile')
 def profile():
     if 'loggedin' in session:
-        cur = con.cursor()
-        user = session.get('username')
-        cur.execute(f'SELECT * FROM users WHERE username == :username',
-                    {'username': user})
+        user = session.get('username').decode('utf8')
                     
 
         return render_template('profile.html', user=user)
     else:
         redirect(url_for('index'))
+
+
+@app.route('/ordes')
+def orders():
+    if 'loggedin' in session:
+        cur = con.cursor()
+        cur.execute('SELECT * FROM orders')
+        orders = cur.fetchall()
+        cur.close()
+        return render_template('orders.html', orders=orders, count_orders=len(orders))
+    else:
+        return redirect(url_for('index'))
+
+@app.route('/order_clear', methods=['POST'])
+def order_clear():
+    if 'loggedin' in session:
+        if request.method == 'POST':
+            cur = con.cursor()
+            bId = request.form['oc']
+            title = request.form['title']
+            cur.execute(f"DELETE FROM orders WHERE id == :id", {'id': bId})
+            cur.execute(f'SELECT count FROM books WHERE title == :title', {'title': title})
+            count = cur.fetchone()
+            count = int(str(count[0])) + 1
+            cur.execute(f"UPDATE books SET count = :count WHERE title == :title", {'count': count, 'title': title})
+            con.commit()
+            cur.close()
+        return redirect(url_for('orders'))
+    else:
+        return redirect(url_for('index'))
 
 
 
