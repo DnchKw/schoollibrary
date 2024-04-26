@@ -8,6 +8,7 @@
    - [Что планируется реализовать](#title1.2)
 2. [Как установить](#title2)
 3. [Как запустить](#title3)
+4. [Скриншоты](#title4)
 
 ## <a id="title1">Задачи</a>
 ### <a id="title1.1">Что реализовано</a>
@@ -35,13 +36,12 @@
 2. Запустите файл main.py и перейдите по ссылке которую вывел в консоль
 
 ## <a id="title4">Скриншоты</a>
-<p align="center">
-   <img src="https://github.com/DenuG/schoollibrary/tree/master/templates/Schreenshots/index.png"/>
-   <img src="https://github.com/DenuG/schoollibrary/tree/master/templates/Schreenshots/main.png"/>
-   <img src="https://github.com/DenuG/schoollibrary/tree/master/templates/Schreenshots/bagEmpty.png"/>
-   <img src="https://github.com/DenuG/schoollibrary/tree/master/templates/Schreenshots/bag.png"/>
-   <img src="https://github.com/DenuG/schoollibrary/tree/master/templates/Schreenshots/profile.png"/>
-   <img src="https://github.com/DenuG/schoollibrary/tree/master/templates/Schreenshots/admin"/>
-   <img src="https://github.com/DenuG/schoollibrary/tree/master/templates/Schreenshots/orders"/>
-</p>
+![](./templates/Schreenshots/index.png)
+![](./templates/Schreenshots/main.png)
+![](./templates/Schreenshots/bagEmpty.png)
+![](./templates/Schreenshots/bag.png)
+![](./templates/Schreenshots/profile.png)
+![](./templates/Schreenshots/admin.png)
+![](./templates/Schreenshots/orders.png)
+
 # Хорошего денечка и спасибо за внимание!
