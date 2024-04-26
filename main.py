@@ -133,7 +133,7 @@ def main():
             image = request.form['image']
             count = request.form['count']
             count = int(count) - 1
-            if count > 0:
+            if count > -1:
                 print({'user': user, 'title': title, 'author': author, 'image': image})
                 cur.execute("INSERT INTO orders (users, title, author, image) VALUES " "(:user, :title, :author, :image)", {'user': user, 'title': title, 'author': author, 'image': image})
                 cur.execute("UPDATE books SET count = :count WHERE title == :title", {'count': count, 'title': title})
@@ -235,7 +235,7 @@ def bag_clean():
             cur.execute(f"DELETE FROM orders WHERE id == :id", {'id': bId})
             cur.execute(f'SELECT count FROM books WHERE title == :title', {'title': title})
             count = cur.fetchone()
-            count = int(str(count[0])) + 1
+            count = count[0] + 1
             cur.execute(f"UPDATE books SET count = :count WHERE title == :title", {'count': count, 'title': title})
             con.commit()
             cur.close()
@@ -276,7 +276,7 @@ def order_clear():
             cur.execute(f"DELETE FROM orders WHERE id == :id", {'id': bId})
             cur.execute(f'SELECT count FROM books WHERE title == :title', {'title': title})
             count = cur.fetchone()
-            count = int(str(count[0])) + 1
+            count = count[0] + 1
             cur.execute(f"UPDATE books SET count = :count WHERE title == :title", {'count': count, 'title': title})
             con.commit()
             cur.close()
